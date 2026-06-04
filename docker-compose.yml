@@ -298,6 +298,50 @@ services:
     restart: unless-stopped
     networks:
       - app_services
+  web-chonhanh24h:
+    build:
+      context: ../web-chonhanh24h
+      dockerfile: Dockerfile
+    container_name: web-chonhanh24h
+    ports:
+      - "3004:3000"
+    volumes:
+      - ../web-chonhanh24h:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+          ignore:
+            - node_modules
+        - action: sync
+          path: ./public
+          target: /app/public
+        - action: rebuild
+          path: package.json
+    command: npm run dev
+    restart: unless-stopped
+    depends_on:
+      - api-gateway
+    networks:
+      - app_services
+
+  9router:
+    image: decolua/9router:latest
+    container_name: 9router
+    ports:
+      - "20128:20128"
+    volumes:
+      - ./data/9router:/app/data
+    restart: unless-stopped
+    networks:
+      - app_services
+
 networks: 
   mongo_rs:
     driver: bridge
