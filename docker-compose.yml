@@ -8,12 +8,6 @@
 
 version: '3.7'
 
-# volumes:
-#   prometheus-data:
-#     driver: local
-#   grafana-data:
-#     driver: local
-
 services:
   mongo1:
     hostname: mongo1
@@ -29,166 +23,7 @@ services:
     networks:
       - mongo_rs
       - app_services
-    # deploy: # not test yet
-    #   resources:
-    #     limits:
-    #       cpus: '0.001'
-    #       memory: 50M
-    #     reservations:
-    #       cpus: '0.0001'
-    #       memory: 20M
-  # mongo2:
-  #   hostname: mongo2
-  #   container_name: mongo2
-  #   image: mongo:4
-  #   volumes:
-  #     - ./data/mongo2/db:/data/db
-  #     - ./data/mongo2/configdb:/data/configdb
-  #   ports:
-  #     - "27118:27017"
-  #   restart: always
-  #   command: [ "mongod", "--bind_ip_all", "--replSet", "mongo_rs" ]
-  #   depends_on:
-  #     - mongo1
-  #   networks:
-  #     - mongo_rs
-  # mongo3:
-  #   hostname: mongo3
-  #   container_name: mongo3
-  #   image: mongo:4
-  #   volumes:
-  #     - ./data/mongo3/db:/data/db
-  #     - ./data/mongo3/configdb:/data/configdb
-  #   ports:
-  #     - "27119:27017"
-  #   restart: always
-  #   command: [ "mongod", "--bind_ip_all", "--replSet", "mongo_rs" ]
-  #   depends_on:
-  #     - mongo1
-  #     - mongo2
-  #   networks:
-  #     - mongo_rs
-  # redis:
-  #   container_name: 'redis'
-  #   image: 'redis:alpine'
-  #   ports:
-  #     - "6379:6379"
-  #   volumes:
-  #     - ./data/redis.conf:/usr/local/etc/redis/redis.conf
-  #   restart: always
-  
-  # neo4j:
-  #   container_name: 'neo4j'
-  #   image: 'neo4j'
-  #   ports:
-  #     - "7474:7474"
-  #     - "7687:7687"
-  #   # volumes:
-  #   #   - ./data/neo4j/data:/data
-  #   #   - ./data/neo4j/logs:/logs
-  #   restart: always
-  # zookeeper:
-  #   container_name: 'zookeeper'
-  #   image: wurstmeister/zookeeper
-  #   ports:
-  #     - "2181:2181"
-  #   volumes:
-  #     - ./data/zookeeper:/opt/zookeeper*
-  #   restart: always
-  # kafka:
-  #   container_name: 'kafka'
-  #   image: wurstmeister/kafka
-  #   ports:
-  #     - "9092:9092"
-  #   environment:
-  #     KAFKA_ADVERTISED_HOST_NAME: localhost
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - ./data/kafka:/kafka
-  #   depends_on:
-  #     - zookeeper
-  #   restart: always
-  # kafka-ui:
-  #   container_name: 'kafka_ui'
-  #   image: provectuslabs/kafka-ui:latest
-  #   ports:
-  #     - '8080:8080'
-  #   environment:
-  #     KAFKA_CLUSTERS_0_NAME: local
-  #     KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: localhost:9092
-  #     KAFKA_CLUSTERS_0_ZOOKEEPER: localhost:2181
-  #   depends_on:
-  #     - kafka
-  #   restart: always
-  # pushpin: # not use (setting...)
-  #   container_name: 'pushpin'
-  #   image: fanout/pushpin
-  #   ports:
-  #     - "7999:7999"
-  #   restart: always
-  # rabbitmq:
-  #   container_name: 'rabbitmq'
-  #   image: rabbitmq:3-management-alpine
-  #   ports:
-  #     - 5672:5672
-  #     - 15672:15672
-  #   # volumes:
-  #   #   - ./data/rabbitmq/data/:/var/lib/rabbitmq/
-  #   #   - ./data/rabbitmq/log/:/var/log/rabbitmq/
-  #   restart: always
-  # mongov5_1:
-  #   hostname: mongo_v5_rep1
-  #   container_name: mongo_v5_rep1
-  #   image: mongo:5
-  #   volumes:
-  #     - ./data/mongov5_1/db:/data/db
-  #     - ./data/mongov5_1/configdb:/data/configdb
-  #   ports:
-  #     - "27217:27017"
-  #   restart: always
-  #   command: [ "mongod", "--bind_ip_all", "--replSet", "mongo_v5_rs" ]
-  #   networks:
-  #     - mongo_v5_rs
 
-  # prometheus:
-  #   image: prom/prometheus:latest
-  #   container_name: prometheus
-  #   ports:
-  #     - "9090:9090"
-  #   volumes:
-  #     - /etc/prometheus:/etc/prometheus
-  #     - prometheus-data:/prometheus
-  #   restart: unless-stopped
-  #   command:
-  #     - "--config.file=/etc/prometheus/prometheus.yml"
-  #   extra_hosts:
-  #     - "host.docker.internal:host-gateway" # su dung de ben trong prometheus container co the goi ra java service ben ngoai qua url: http://host.docker.internal:4000/actuator/prometheus
-  # grafana:
-  #   image: grafana/grafana:latest
-  #   container_name: grafana
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - grafana-data:/var/lib/grafana
-  #   environment:
-  #     - 'GF_SMTP_ENABLED=true'
-  #     - 'GF_SMTP_HOST=smtp.gmail.com:587'
-  #     - 'GF_SMTP_USER=user1@gmail.com'
-  #     - 'GF_SMTP_PASSWORD=mysamplePassword'
-  #     - 'GF_SMTP_FROM_ADDRESS=user1@gmail.com'
-  #     # - 'GF_SERVER_DOMAIN=grafana.my.domain'
-  #     # - 'GF_SERVER_ROOT_URL=grafana.my.domain'
-  #   restart: unless-stopped
-  # mysql:
-  #   hostname: mysql
-  #   container_name: mysql
-  #   image: mysql:5.7
-  #   ports:
-  #     - "3306:3306"
-  #   environment:
-  #     - MYSQL_ALLOW_EMPTY_PASSWORD=true
-  #   restart: always
   api-gateway:
     build:
       context: ../api-gateway
@@ -203,17 +38,18 @@ services:
       NODE_ENV: development
     develop:
       watch:
-        - action: sync                # Khi file thay đổi, đồng bộ ngay lập tức
+        - action: sync
           path: ./src
           target: /app/src
           ignore:
             - node_modules
-        - action: rebuild             # Nếu thay đổi package.json, tự động build lại image
+        - action: rebuild
           path: package.json
     command: npm run start:dev
     restart: unless-stopped
     networks:
       - app_services
+
   core-service:
     build:
       context: ../core-service
@@ -229,12 +65,12 @@ services:
       MONGODB_URI: mongodb://mongo1:27017/23sale
     develop:
       watch:
-        - action: sync                # Khi file thay đổi, đồng bộ ngay lập tức
+        - action: sync
           path: ./src
           target: /app/src
           ignore:
             - node_modules
-        - action: rebuild             # Nếu thay đổi package.json, tự động build lại image
+        - action: rebuild
           path: package.json
     depends_on:
       - mongo1
@@ -242,6 +78,7 @@ services:
     restart: unless-stopped
     networks:
       - app_services
+
   post-service:
     build:
       context: ../post-service
@@ -257,12 +94,12 @@ services:
       MONGODB_URI: mongodb://mongo1:27017/23sale
     develop:
       watch:
-        - action: sync                # Khi file thay đổi, đồng bộ ngay lập tức
+        - action: sync
           path: ./src
           target: /app/src
           ignore:
             - node_modules
-        - action: rebuild             # Nếu thay đổi package.json, tự động build lại image
+        - action: rebuild
           path: package.json
     depends_on:
       - mongo1
@@ -270,6 +107,7 @@ services:
     restart: unless-stopped
     networks:
       - app_services
+
   auth-service:
     build:
       context: ../auth-service
@@ -285,12 +123,12 @@ services:
       MONGODB_URI: mongodb://mongo1:27017/23sale
     develop:
       watch:
-        - action: sync                # Khi file thay đổi, đồng bộ ngay lập tức
+        - action: sync
           path: ./src
           target: /app/src
           ignore:
             - node_modules
-        - action: rebuild             # Nếu thay đổi package.json, tự động build lại image
+        - action: rebuild
           path: package.json
     depends_on:
       - mongo1
@@ -298,6 +136,36 @@ services:
     restart: unless-stopped
     networks:
       - app_services
+
+  user-service:
+    build:
+      context: ../user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "3005:3004"
+    volumes:
+      - ../user-service:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+      MONGODB_URI: mongodb://mongo1:27017/23sale
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+          ignore:
+            - node_modules
+        - action: rebuild
+          path: package.json
+    depends_on:
+      - mongo1
+    command: npm run start:dev
+    restart: unless-stopped
+    networks:
+      - app_services
+
   web-chonhanh24h:
     build:
       context: ../web-chonhanh24h
@@ -349,6 +217,3 @@ networks:
   app_services:
     driver: bridge
     name: app_services
-  # mongo_v5_rs:
-  #   driver: bridge
-  #   name: mongo_v5_rs
