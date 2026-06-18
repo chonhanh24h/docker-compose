@@ -143,7 +143,7 @@ services:
       dockerfile: Dockerfile
     container_name: user-service
     ports:
-      - "3005:3004"
+      - "3005:3005"
     volumes:
       - ../user-service:/app
       - /app/node_modules
@@ -172,7 +172,7 @@ services:
       dockerfile: Dockerfile
     container_name: web-chonhanh24h
     ports:
-      - "3004:3000"
+      - "3004:3004"
     volumes:
       - ../web-chonhanh24h:/app
       - /app/node_modules
