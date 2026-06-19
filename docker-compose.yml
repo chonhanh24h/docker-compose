@@ -172,7 +172,7 @@ services:
       dockerfile: Dockerfile
     container_name: web-chonhanh24h
     ports:
-      - "3004:3004"
+      - "3004:3000"
     volumes:
       - ../web-chonhanh24h:/app
       - /app/node_modules
