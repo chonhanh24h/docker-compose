@@ -199,17 +199,6 @@ services:
     networks:
       - app_services
 
-  # 9router:
-  #   image: decolua/9router:latest
-  #   container_name: 9router
-  #   ports:
-  #     - "20128:20128"
-  #   volumes:
-  #     - ./data/9router:/app/data
-  #   restart: unless-stopped
-  #   networks:
-  #     - app_services
-
   chonhanh24h:
     build:
       context: ../chonhanh24h
