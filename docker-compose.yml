@@ -45,7 +45,6 @@ services:
             - node_modules
         - action: rebuild
           path: package.json
-    command: npm run start:dev
     restart: unless-stopped
     networks:
       - app_services
@@ -74,7 +73,6 @@ services:
           path: package.json
     depends_on:
       - mongo1
-    command: npm run start:dev
     restart: unless-stopped
     networks:
       - app_services
@@ -103,7 +101,6 @@ services:
           path: package.json
     depends_on:
       - mongo1
-    command: npm run start:dev
     restart: unless-stopped
     networks:
       - app_services
@@ -132,7 +129,6 @@ services:
           path: package.json
     depends_on:
       - mongo1
-    command: npm run start:dev
     restart: unless-stopped
     networks:
       - app_services
@@ -161,7 +157,6 @@ services:
           path: package.json
     depends_on:
       - mongo1
-    command: npm run start:dev
     restart: unless-stopped
     networks:
       - app_services
