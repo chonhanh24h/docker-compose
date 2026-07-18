@@ -120,6 +120,8 @@ services:
     environment:
       NODE_ENV: development
       MONGODB_URI: mongodb://mongo1:27017/23sale
+      RABBITMQ_URL: amqp://rabbitmq:5672
+      REDIS_URL: redis://redis:6379
     develop:
       watch:
         - action: sync
@@ -134,6 +136,36 @@ services:
     restart: unless-stopped
     networks:
       - app_services
+
+  notification-service:
+    build:
+      context: ../notification-service
+      dockerfile: Dockerfile
+    container_name: notification-service
+    ports:
+      - "3006:3006"
+    volumes:
+      - ../notification-service:/app
+      - /app/node_modules
+      - ~/.aws:/root/.aws:ro
+    environment:
+      NODE_ENV: development
+      RABBITMQ_URL: amqp://rabbitmq:5672
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+          ignore:
+            - node_modules
+        - action: rebuild
+          path: package.json
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+    networks:
+      - app_services
+
 
   user-service:
     build:
